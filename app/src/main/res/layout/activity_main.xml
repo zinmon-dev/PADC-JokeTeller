@@ -30,15 +30,23 @@
         <!--android:layout_height="match_parent"-->
         <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
         <!--tools:layout="@layout/fragment_main" />-->
-    <FrameLayout
-        android:id="@+id/fl_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1"
         android:gravity="bottom"
         android:paddingRight="8dp"
         android:paddingLeft="8dp">
@@ -47,11 +55,11 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="right">
-        <RadioButton
+        <com.example.asus.padc_ex3.components.radiobuttons.MMRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/rdo1"/>
-        <RadioButton
+        <com.example.asus.padc_ex3.components.radiobuttons.MMRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/rdo2"/>
@@ -64,20 +72,22 @@
             android:gravity="right"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp">
-            <Button
+            <com.example.asus.padc_ex3.components.buttons.MMButton
                 android:id="@+id/btn_previous"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:text="@string/btn_previous"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
+                android:layout_weight="1"
                 android:textColor="#ffffff"
                 android:layout_marginRight="18dp"
                 android:background="@drawable/button_bg_rounded_cornor"/>
-            <Button
+            <com.example.asus.padc_ex3.components.buttons.MMButton
                 android:id="@+id/btn_next"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="40dp"
+                android:layout_weight="1"
                 android:text="@string/btn_next"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
@@ -86,7 +96,7 @@
         </LinearLayout>
 
     </LinearLayout>
-
+    </LinearLayout>
     <!--<android.support.design.widget.FloatingActionButton-->
         <!--android:id="@+id/fab"-->
         <!--android:layout_width="wrap_content"-->

@@ -1,4 +1,4 @@
-package com.example.asus.padc_ex3.components;
+package com.example.asus.padc_ex3.components.textviews;
 
 import android.content.Context;
 import android.util.AttributeSet;
