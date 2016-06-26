@@ -2,23 +2,37 @@ package com.example.asus.padc_ex3.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asus.padc_ex3.R;
 import com.example.asus.padc_ex3.fragments.MainActivityFragment;
+import com.example.asus.padc_ex3.utils.JokeTellerConstants;
 
 public class MainActivity extends AppCompatActivity {
-    private  int i=0;
+    private int jokeIndex = -1;
+
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private TextView tvSearchGuide;
+    private FrameLayout flContainer;
+    private Button btnNextJoke;
+    private Button btnPreviousJoke;
+
+    private ShareActionProvider mShareActionProvider;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,10 +48,13 @@ public class MainActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
-        Fragment Fragdetail = new MainActivityFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fl_container,Fragdetail)
-                .commit();
+        if (savedInstanceState == null) {
+            jokeIndex++;
+            MainActivityFragment fragment = MainActivityFragment.newInstance(jokeIndex);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fl_container, fragment)
+                    .commit();
+        }
 
         Button btnNext = (Button) findViewById(R.id.btn_next);
         Button btnPrevious = (Button) findViewById(R.id.btn_previous);
@@ -46,57 +63,37 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(i<2){
-                    i=i+1;
-                    changeContentData();
-                }
-                else{
-                    Toast.makeText(MainActivity.this,"No Record to display", Toast.LENGTH_SHORT).show();
-                }
+                jokeIndex++;
+                if (jokeIndex < JokeTellerConstants.TOTAL_JOKES) {
+                    MainActivityFragment fragment = MainActivityFragment.newInstance(jokeIndex);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fl_container, fragment)
+                            .commit();
 
+                } else {
+                    jokeIndex = JokeTellerConstants.TOTAL_JOKES - 1;
+                    Toast.makeText(getApplicationContext(), R.string.msg_no_more_joke, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         btnPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(i>0){
-                    i--;
-                    changeContentData();
-
-                }
-                else{
-                    Toast.makeText(MainActivity.this,"No Record to display", Toast.LENGTH_SHORT).show();
+                jokeIndex--;
+                if (jokeIndex >= 0) {
+                    MainActivityFragment fragment = MainActivityFragment.newInstance(jokeIndex);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fl_container, fragment)
+                            .commit();
+                } else {
+                    jokeIndex = 0;
+                    Toast.makeText(getApplicationContext(), R.string.msg_no_more_joke, Toast.LENGTH_SHORT).show();
                 }
 
 
             }
         });
-    }
-    public void changeContentData(){
-        TextView jokeTitle = (TextView) findViewById(R.id.tv_joke_title);
-        ImageView jokeImage = (ImageView) findViewById(R.id.iv_joke_image);
-        TextView jokeContent = (TextView) findViewById(R.id.tv_joke_content);
-        switch (i)
-        {
-            case 0:
-                jokeTitle.setText(R.string.joke_title_1);
-                jokeImage.setImageResource(R.drawable.joke_1);
-                jokeContent.setText(R.string.main_content);
-                break;
-            case 1:
-                jokeTitle.setText(R.string.joke_title_2);
-                jokeImage.setImageResource(R.drawable.joke_2);
-                jokeContent.setText(R.string.main_content_2);
-                break;
-            default:
-                jokeTitle.setText(R.string.joke_title_3);
-                jokeImage.setImageResource(R.drawable.joke_3);
-                jokeContent.setText(R.string.main_content_3);
-                break;
-
-        }
     }
 
     @Override
